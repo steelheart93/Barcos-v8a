@@ -1,0 +1,69 @@
+PROYECTO BARCOS - v8a (alternativo)
+Universidad de Caldas
+Ingeniería de Software
+2018
+
+Proyecto usado como repaso sobre conceptos de orientación a objetos.
+No es un proyecto completo, pues la idea es que los estudiantes, como ejercicio, adicionen validaciones y otras funcionalidades.
+
+*********** CAMBIOS con respecto a v1
+- Se adiciona el atributo "matrícula" en el barco, para permitir su identificación.
+Esto hace que se cambien todas las clases, tanto las hijas (por el constructor), como la clase de control y la interfaz gráfica.
+
+*********** CAMBIOS con respecto a v2
+- Se crea una nueva excepción para el manejo de los errores que tienen que ver con barcos repetidos.
+No cambian las clases de entidad. Cambia la clase de control y la interfaz gráfica.
+
+*********** CAMBIOS con respecto a v3
+- Se adiciona una interfaz que ofrece los servicios para manejar la persistencia, y dos clases que la implementan.
+Se crea un nuevo paquete para esta interfaz y las clases:
+  Una para "simular" la persistencia con una lista en memoria
+  Una para acceso a base de datos (base de datos SQLite)
+Cambian las clases de entidad porque se adicionan algunos métodos get que no tenían.
+Cambia la clase de control (para usar la interfaz).
+No cambia la interfaz gráfica.
+Se adicionan como recursos adicionales:
+  El driver de conexión a SQLite.
+  La base de datos llamada "barcos.db".
+  
+*********** CAMBIOS con respecto a v4
+- Se separan las responsabilidades que tenía la clase "BaseDatosBarco", creando dos nuevas clases:
+  GestorConexionBD (encargada de abrir y cerrar la conexión a la base de datos)
+  ConversorSQLBarcos (encargada de crear las sentencias SQL para los objetos barco). 
+  
+*********** CAMBIOS con respecto a v5
+- Se adiciona un botón en la interfaz gráfica para la funcionalidad "Borrar barco",
+  pero por el momento sin acciones asociadas.
+  
+*********** CAMBIOS con respecto a v5.5
+- Se adiciona la funcionalidad correspondiente a "Borrar barco":
+  Creando métodos en las clases de interfaz gráfica, de control y la interfaz "RepositorioBarcos"
+  (Al cambiar la interfaz Repositorio, también cambian las clases que la implementan: Lista y BD)
+
+*********** CAMBIOS con respecto a v6
+- Se crea una fábrica para crear la clase correspondiente al repositorio: Lista o BD
+  (desde la clase Puerto).
+  Esta fábrica toma los datos de un archivo de propiedades,
+  de esta forma no hay que cambiar el código cuando se desee cambiar el repositorio.
+- Se crea una fábrica de barcos, que recibe - además de los valores para el constructor -
+  el tipo de barco que se creará.
+- Se crea la clase "ControlPuerto", como intermediaria entre la interfaz gráfica y la clase "Puerto".
+  Esta clase se encarga de realizar validaciones de formato, y "conversiones" de los tipos de datos.
+  Eso hace que la clase de la GUI (VentanaControlBarcos) ya no necesite conocer los tipos de datos
+  ni los retornos, solo envía y recibe String, y para errores maneja excepciones.
+  Y la clase Puerto se concentra solo en realizar validaciones del negocio.
+ 
+*********** CAMBIOS con respecto a v7
+- Se adiciona una nueva forma de persistencia con ORM, basada en JPA (Java Persistence API). 
+  Para esto:
+  Se crea una nueva clase (OrmBarcos) que implementa RepositorioBarcos,
+  se adicionan anotaciones en las clases que serán persistentes y 
+  se crea un archivo con propiedades.
+  También se crea otra base de datos (barcosOrm.db)
+  --> Se considera alternativo porque explora una forma de guardar la herencia en dos tablas,
+     usando la anotación @MappedSuperclass en Barco (en lugar de Entity).
+     Esto afecta la forma de consultar las tablas (toda buscar en cada una por separado).
+  
+
+  
+  
